@@ -294,7 +294,7 @@
           "concat",
           ["case", ["has", "name"], ["concat", ["get", "name"], "\n"], ""],
           ["case", ["has", "operator"], ["concat", ["get", "operator"], "\n"], ""],
-          ["case", ["has", "voltage"], ["concat", ["to-string", ["get", "voltage"]], " kV"], ""]
+          ["case", ["has", "voltage"], ["concat", ["to-number", ["get", "voltage"]], " kV"], ""]
         ]
       },
       "paint": {
@@ -320,11 +320,7 @@
             ["has", "output"],
             ["concat",
               [
-                "to-string",
-                [
-                  "floor",
-                  ["*", ["to-number", ["get", "output"]], 100]
-                ]
+                "to-number",["get", "output"]
               ],
               " MW"
             ],
@@ -389,11 +385,7 @@
             ["has", "output"],
             ["concat",
               [
-                "to-string",
-                [
-                  "floor",
-                  ["*", ["to-number", ["get", "output"]], 100]
-                ]
+                "to-number",["get", "output"]
               ],
               " MW"
             ],
