@@ -300,7 +300,8 @@
       "paint": {
         "text-color": "#111",
         "text-halo-color": "#fff",
-        "text-size": ["interpolate", ["linear"], ["zoom"], 5, 7, 10, 13],
+        "text-size": ["interpolate", ["linear"], ["zoom"], 3, 5, 7, 11],
+        "text-optional": true,
         "text-halo-width": 2
       }
     },
