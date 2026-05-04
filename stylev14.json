@@ -179,9 +179,14 @@
       "source": "power",
       "source-layer": "power_generator",
       "filter": ["==", ["get", "source"], "wind"],
-      "minzoom": 10,
+      "minzoom": 8,
       "paint": {
-        "circle-radius": ["interpolate", ["linear"], ["zoom"], 10, 3, 17, 9],
+         "circle-radius": [
+         "interpolate", ["linear"], ["zoom"],
+  8, 4,
+  12, 10,
+  17, 18
+]
         "circle-color": "#55B555",
         "circle-stroke-color": "#2a7a2a",
         "circle-stroke-width": 3
