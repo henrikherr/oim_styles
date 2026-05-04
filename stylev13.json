@@ -251,9 +251,9 @@
           "battery", "#B54EB2",
           "hsl(30, 20%, 35%)"
         ],
-        "circle-radius": ["interpolate", ["linear"], ["zoom"], 5, 3, 12, 10],
+        "circle-radius": ["interpolate", ["linear"], ["zoom"], 5, 7, 11, 15],
         "circle-stroke-color": "#333333",
-        "circle-stroke-width": 0.5,
+        "circle-stroke-width": 2.5,
         "circle-opacity": ["interpolate", ["linear"], ["zoom"], 4, 0.4, 8, 1]
       }
     },
@@ -300,7 +300,7 @@
       "paint": {
         "text-color": "#111",
         "text-halo-color": "#fff",
-        "text-size": ["interpolate", ["linear"], ["zoom"], 3, 5, 7, 11],
+        "text-size": 2,
         "text-optional": true,
         "text-halo-width": 2
       }
