@@ -168,7 +168,7 @@
           12, ["step", ["get", "voltage"], 2, 100, 4, 300, 6]
         ],
         "circle-stroke-color": "#333333",
-        "circle-stroke-width": 0.5,
+        "circle-stroke-width": 1,
         "circle-opacity": ["interpolate", ["linear"], ["zoom"], 2, 0.3, 6, 1]
       }
     },
@@ -184,7 +184,7 @@
         "circle-radius": ["interpolate", ["linear"], ["zoom"], 10, 3, 17, 9],
         "circle-color": "#55B555",
         "circle-stroke-color": "#2a7a2a",
-        "circle-stroke-width": 1
+        "circle-stroke-width": 3
       }
     },
 
@@ -227,7 +227,7 @@
         ],
         "circle-radius": ["interpolate", ["linear"], ["zoom"], 10, 3, 16, 8],
         "circle-stroke-color": "#333333",
-        "circle-stroke-width": 1
+        "circle-stroke-width": 3
       }
     },
 
@@ -273,7 +273,7 @@
         ],
         "symbol-placement": "line",
         "symbol-spacing": 400,
-        "text-size": ["interpolate", ["linear"], ["zoom"], 7, 9, 18, 13],
+        "text-size": ["interpolate", ["linear"], ["zoom"], 5, 7, 10, 13],
         "text-optional": true
       },
       "paint": {
@@ -300,6 +300,7 @@
       "paint": {
         "text-color": "#111",
         "text-halo-color": "#fff",
+        "text-size": ["interpolate", ["linear"], ["zoom"], 5, 7, 10, 13],
         "text-halo-width": 2
       }
     },
@@ -331,6 +332,7 @@
       "paint": {
         "text-color": "#1a5c1a",
         "text-halo-color": "#fff",
+        "text-size": ["interpolate", ["linear"], ["zoom"], 5, 7, 10, 13],
         "text-halo-width": 2
       }
     },
@@ -365,6 +367,7 @@
       "paint": {
         "text-color": "#2e2060",
         "text-halo-color": "#fff",
+        "text-size": ["interpolate", ["linear"], ["zoom"], 5, 7, 10, 13],
         "text-halo-width": 2
       }
     },
@@ -396,6 +399,7 @@
       "paint": {
         "text-color": "#111",
         "text-halo-color": "#fff",
+        "text-size": ["interpolate", ["linear"], ["zoom"], 5, 7, 10, 13],
         "text-halo-width": 2
       }
     }
