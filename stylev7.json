@@ -358,10 +358,9 @@
             ["has", "output"],
             ["concat",
               [
-                "to-string",
+                "number-format",
                 [
-                  "floor",
-                  ["*", ["to-number", ["get", "output"]], 100]
+                  "to-number", ["get", "output"]], 100
                 ]
               ],
               " MW"
