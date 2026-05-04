@@ -358,7 +358,7 @@
             ["has", "output"],
             ["concat",
               [
-                "number-format",["get", "output"]
+                "to-number",["get", "output"]
               ],
               " MW"
             ],
