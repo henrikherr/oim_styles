@@ -27,12 +27,12 @@
       "source": "power",
       "source-layer": "power_plant",
       "minzoom": 8,
+      "layout": { "line-join": "round" },
       "paint": {
         "line-color": "#1e1e1e",
         "line-opacity": 0.8,
         "line-width": ["interpolate", ["linear"], ["zoom"], 8, 0, 20, 4]
-      },
-      "layout": { "line-join": "round" }
+      }
     },
     {
       "id": "power_solar_panel_area",
@@ -113,8 +113,8 @@
         ],
         "line-width": [
           "interpolate", ["linear"], ["zoom"],
-          3,  ["step", ["get", "voltage"], 0.5, 52, 1, 132, 1.5, 220, 2, 310, 2.5],
-          12, ["step", ["get", "voltage"], 1,   52, 2, 132, 3,   220, 4, 310, 5  ]
+          3,  ["step", ["get", "voltage"], 0.5, 52, 1,   132, 1.5, 220, 2, 310, 2.5],
+          12, ["step", ["get", "voltage"], 1,   52, 2,   132, 3,   220, 4, 310, 5  ]
         ],
         "line-opacity": ["interpolate", ["linear"], ["zoom"], 2, 0.3, 6, 1]
       }
@@ -239,34 +239,16 @@
     },
 
     {
-      "id": "power_substation_label",
-      "type": "symbol",
-      "source": "power",
-      "source-layer": "power_substation_point",
-      "minzoom": 8,
-      "layout": {
-        "text-field": ["concat", ["get", "name"], "\n", ["get", "voltage"], " kV"],
-        "text-font": ["Noto Sans Regular"],
-        "text-size": ["interpolate", ["linear"], ["zoom"], 8, 10, 15, 13],
-        "text-variable-anchor": ["top", "bottom", "left", "right"],
-        "text-radial-offset": 0.8,
-        "text-optional": true,
-        "text-max-width": 14
-      },
-      "paint": {
-        "text-color": "hsl(0, 0%, 10%)",
-        "text-halo-color": "hsla(0, 0%, 98%, 0.9)",
-        "text-halo-width": 2
-      }
-    },
-    {
       "id": "power_line_label",
       "type": "symbol",
       "source": "power",
       "source-layer": "power_line",
       "minzoom": 7,
       "layout": {
-        "text-field": ["get", "voltage"],
+        "text-field": ["concat",
+          ["to-string", ["round", ["to-number", ["get", "voltage"]]]],
+          " kV"
+        ],
         "text-font": ["Noto Sans Regular"],
         "symbol-placement": "line",
         "symbol-spacing": 400,
@@ -280,6 +262,34 @@
         "text-halo-width": 2
       }
     },
+
+    {
+      "id": "power_substation_label",
+      "type": "symbol",
+      "source": "power",
+      "source-layer": "power_substation_point",
+      "minzoom": 8,
+      "layout": {
+        "text-field": ["concat",
+          ["case", ["has", "name"],     ["concat", ["get", "name"], "\n"],     ""],
+          ["case", ["has", "operator"], ["concat", ["get", "operator"], "\n"], ""],
+          ["to-string", ["round", ["to-number", ["get", "voltage"]]]],
+          " kV"
+        ],
+        "text-font": ["Noto Sans Regular"],
+        "text-size": ["interpolate", ["linear"], ["zoom"], 8, 10, 15, 13],
+        "text-variable-anchor": ["top", "bottom", "left", "right"],
+        "text-radial-offset": 0.8,
+        "text-optional": true,
+        "text-max-width": 14
+      },
+      "paint": {
+        "text-color": "hsl(0, 0%, 10%)",
+        "text-halo-color": "hsla(0, 0%, 98%, 0.9)",
+        "text-halo-width": 2
+      }
+    },
+
     {
       "id": "power_wind_turbine_label",
       "type": "symbol",
@@ -288,7 +298,17 @@
       "filter": ["==", ["get", "source"], "wind"],
       "minzoom": 12,
       "layout": {
-        "text-field": ["concat", ["get", "name"], "\n", ["get", "operator"]],
+        "text-field": ["concat",
+          ["case", ["has", "name"],     ["concat", ["get", "name"], "\n"],     ""],
+          ["case", ["has", "operator"], ["concat", ["get", "operator"], "\n"], ""],
+          ["case", ["has", "output"],
+            ["concat",
+              ["to-string", ["/", ["round", ["*", ["to-number", ["get", "output"]], 100]], 100]],
+              " MW"
+            ],
+            ""
+          ]
+        ],
         "text-font": ["Noto Sans Regular"],
         "text-size": ["interpolate", ["linear"], ["zoom"], 12, 9, 17, 12],
         "text-variable-anchor": ["top", "bottom", "left", "right"],
@@ -302,6 +322,7 @@
         "text-halo-width": 2
       }
     },
+
     {
       "id": "power_solar_area_label",
       "type": "symbol",
@@ -310,7 +331,17 @@
       "filter": ["==", ["get", "source"], "solar"],
       "minzoom": 11,
       "layout": {
-        "text-field": ["concat", ["get", "name"], "\n", ["get", "operator"]],
+        "text-field": ["concat",
+          ["case", ["has", "name"],     ["concat", ["get", "name"], "\n"],     ""],
+          ["case", ["has", "operator"], ["concat", ["get", "operator"], "\n"], ""],
+          ["case", ["has", "output"],
+            ["concat",
+              ["to-string", ["/", ["round", ["*", ["to-number", ["get", "output"]], 100]], 100]],
+              " MW"
+            ],
+            ""
+          ]
+        ],
         "text-font": ["Noto Sans Regular"],
         "text-size": ["interpolate", ["linear"], ["zoom"], 11, 10, 17, 13],
         "text-variable-anchor": ["center"],
@@ -324,6 +355,7 @@
         "text-halo-width": 2
       }
     },
+
     {
       "id": "power_plant_label",
       "type": "symbol",
@@ -331,7 +363,18 @@
       "source-layer": "power_plant_point",
       "minzoom": 6,
       "layout": {
-        "text-field": ["concat", ["get", "name"], "\n", ["get", "operator"]],
+        "text-field": ["concat",
+          ["case", ["has", "name"],     ["concat", ["get", "name"], "\n"],     ""],
+          ["case", ["has", "operator"], ["concat", ["get", "operator"], "\n"], ""],
+          ["case", ["has", "source"],   ["concat", ["get", "source"], "\n"],   ""],
+          ["case", ["has", "output"],
+            ["concat",
+              ["to-string", ["/", ["round", ["*", ["to-number", ["get", "output"]], 100]], 100]],
+              " MW"
+            ],
+            ""
+          ]
+        ],
         "text-font": ["Noto Sans Regular"],
         "text-size": ["interpolate", ["linear"], ["zoom"], 6, 10, 15, 13],
         "text-variable-anchor": ["top", "bottom", "left", "right"],
