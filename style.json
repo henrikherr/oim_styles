@@ -1,6 +1,6 @@
 {
   "version": 8,
-  "name": "Open Infrastructure Map - Power (clean labels)",
+  "name": "Open Infrastructure Map - Power (no round)",
   "sources": {
     "power": {
       "type": "vector",
@@ -10,28 +10,6 @@
     }
   },
   "layers": [
-
-    {
-      "id": "power_line",
-      "type": "line",
-      "source": "power",
-      "source-layer": "power_line",
-      "paint": {
-        "line-color": [
-          "step", ["to-number", ["get", "voltage"]],
-          "#6E97B8",
-          110000, "#6E97B8",
-          220000, "#C73030",
-          380000, "#B54EB2"
-        ],
-        "line-width": [
-          "interpolate", ["linear"], ["zoom"],
-          5, ["step", ["to-number", ["get", "voltage"]], 0.5, 52000, 1, 132000, 1.5, 220000, 2],
-          10, ["step", ["to-number", ["get", "voltage"]], 1, 52000, 2, 132000, 3, 220000, 4],
-          15, ["step", ["to-number", ["get", "voltage"]], 2, 52000, 3, 132000, 5, 220000, 6]
-        ]
-      }
-    },
 
     {
       "id": "power_line_label",
@@ -48,9 +26,7 @@
           [
             "concat",
             ["to-string",
-              ["round",
-                ["/", ["to-number", ["get", "voltage"]], 1000]
-              ]
+              ["/", ["to-number", ["get", "voltage"]], 1000]
             ],
             " kV"
           ],
@@ -76,18 +52,14 @@
           "concat",
 
           ["case", ["has", "name"], ["concat", ["get", "name"], "\n"], ""],
-
           ["case", ["has", "operator"], ["concat", ["get", "operator"], "\n"], ""],
-
           ["case", ["has", "substation"], ["concat", ["get", "substation"], "\n"], ""],
 
           ["case",
             ["has", "voltage"],
             ["concat",
               ["to-string",
-                ["round",
-                  ["/", ["to-number", ["get", "voltage"]], 1000]
-                ]
+                ["/", ["to-number", ["get", "voltage"]], 1000]
               ],
               " kV"
             ],
@@ -115,20 +87,16 @@
           "concat",
 
           ["case", ["has", "name"], ["concat", ["get", "name"], "\n"], ""],
-
           ["case", ["has", "operator"], ["concat", ["get", "operator"], "\n"], ""],
-
           ["case", ["has", "type"], ["concat", ["get", "type"], "\n"], ""],
 
           ["case",
             ["any", ["has", "output"], ["has", "capacity"]],
             ["concat",
               ["to-string",
-                ["round",
-                  ["coalesce",
-                    ["to-number", ["get", "output"]],
-                    ["to-number", ["get", "capacity"]]
-                  ]
+                ["coalesce",
+                  ["to-number", ["get", "output"]],
+                  ["to-number", ["get", "capacity"]]
                 ]
               ],
               " MW"
@@ -157,20 +125,16 @@
           "concat",
 
           ["case", ["has", "name"], ["concat", ["get", "name"], "\n"], ""],
-
           ["case", ["has", "operator"], ["concat", ["get", "operator"], "\n"], ""],
-
           ["case", ["has", "type"], ["concat", ["get", "type"], "\n"], ""],
 
           ["case",
             ["any", ["has", "output"], ["has", "capacity"]],
             ["concat",
               ["to-string",
-                ["round",
-                  ["coalesce",
-                    ["to-number", ["get", "output"]],
-                    ["to-number", ["get", "capacity"]]
-                  ]
+                ["coalesce",
+                  ["to-number", ["get", "output"]],
+                  ["to-number", ["get", "capacity"]]
                 ]
               ],
               " MW"
