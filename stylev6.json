@@ -92,7 +92,6 @@
       "type": "line",
       "source": "power",
       "source-layer": "power_line",
-      "minzoom": 0,
       "filter": ["any",
         ["==", ["get", "location"], "underground"],
         ["==", ["get", "location"], "underwater"]
@@ -120,7 +119,6 @@
       "type": "line",
       "source": "power",
       "source-layer": "power_line",
-      "minzoom": 0,
       "filter": ["all",
         ["!=", ["get", "location"], "underground"],
         ["!=", ["get", "location"], "underwater"]
@@ -323,9 +321,9 @@
             ["concat",
               [
                 "to-string",
-                ["/",
-                  ["floor", ["*", ["to-number", ["get", "output"]], 100]],
-                  100
+                [
+                  "floor",
+                  ["*", ["to-number", ["get", "output"]], 100]
                 ]
               ],
               " MW"
@@ -361,9 +359,9 @@
             ["concat",
               [
                 "to-string",
-                ["/",
-                  ["floor", ["*", ["to-number", ["get", "output"]], 100]],
-                  100
+                [
+                  "floor",
+                  ["*", ["to-number", ["get", "output"]], 100]
                 ]
               ],
               " MW"
@@ -396,9 +394,9 @@
             ["concat",
               [
                 "to-string",
-                ["/",
-                  ["floor", ["*", ["to-number", ["get", "output"]], 100]],
-                  100
+                [
+                  "floor",
+                  ["*", ["to-number", ["get", "output"]], 100]
                 ]
               ],
               " MW"
