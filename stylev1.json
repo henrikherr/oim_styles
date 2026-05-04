@@ -1,0 +1,126 @@
+{
+  "version": 8,
+  "name": "OIM Power (QGIS safe strict)",
+  "sources": {
+    "power": {
+      "type": "vector",
+      "tiles": ["https://openinframap.org/map/power/{z}/{x}/{y}.pbf"]
+    }
+  },
+  "layers": [
+
+    {
+      "id": "power_line_label",
+      "type": "symbol",
+      "source": "power",
+      "source-layer": "power_line",
+      "layout": {
+        "symbol-placement": "line",
+        "text-field": [
+          "case",
+          ["has", "voltage"],
+          ["concat",
+            ["get", "voltage"],
+            " V"
+          ],
+          ""
+        ]
+      }
+    },
+
+    {
+      "id": "power_substation_label",
+      "type": "symbol",
+      "source": "power",
+      "source-layer": "power_substation_point",
+      "layout": {
+        "text-field": [
+          "concat",
+
+          ["case", ["has", "name"], ["get", "name"], ""],
+
+          ["case",
+            ["has", "operator"],
+            ["concat", "\n", ["get", "operator"]],
+            ""
+          ],
+
+          ["case",
+            ["has", "voltage"],
+            ["concat",
+              "\n",
+              ["get", "voltage"],
+              " V"
+            ],
+            ""
+          ]
+        ]
+      }
+    },
+
+    {
+      "id": "power_generator_label",
+      "type": "symbol",
+      "source": "power",
+      "source-layer": "power_generator",
+      "layout": {
+        "text-field": [
+          "concat",
+
+          ["case", ["has", "name"], ["get", "name"], ""],
+
+          ["case",
+            ["has", "operator"],
+            ["concat", "\n", ["get", "operator"]],
+            ""
+          ],
+
+          ["case",
+            ["has", "type"],
+            ["concat", "\n", ["get", "type"]],
+            ""
+          ],
+
+          ["case",
+            ["has", "output"],
+            ["concat", "\n", ["get", "output"], " MW"],
+            ""
+          ]
+        ]
+      }
+    },
+
+    {
+      "id": "power_generator_area_label",
+      "type": "symbol",
+      "source": "power",
+      "source-layer": "power_generator_area",
+      "layout": {
+        "text-field": [
+          "concat",
+
+          ["case", ["has", "name"], ["get", "name"], ""],
+
+          ["case",
+            ["has", "operator"],
+            ["concat", "\n", ["get", "operator"]],
+            ""
+          ],
+
+          ["case",
+            ["has", "type"],
+            ["concat", "\n", ["get", "type"]],
+            ""
+          ],
+
+          ["case",
+            ["has", "output"],
+            ["concat", "\n", ["get", "output"], " MW"],
+            ""
+          ]
+        ]
+      }
+    }
+
+  ]
+}
