@@ -1,6 +1,6 @@
 {
   "version": 8,
-  "name": "Open Infrastructure Map - Power (final clean)",
+  "name": "Open Infrastructure Map - Power",
   "sources": {
     "power": {
       "type": "vector",
@@ -139,7 +139,7 @@
         ],
         "line-width": [
           "interpolate", ["linear"], ["zoom"],
-          3,  ["step", ["get", "voltage"], 0.5, 52, 1, 132, 1.5, 220, 2, 310, 2.5],
+          3, ["step", ["get", "voltage"], 0.5, 52, 1, 132, 1.5, 220, 2, 310, 2.5],
           12, ["step", ["get", "voltage"], 1, 52, 2, 132, 3, 220, 4, 310, 5]
         ],
         "line-opacity": ["interpolate", ["linear"], ["zoom"], 2, 0.3, 6, 1]
@@ -166,7 +166,7 @@
         ],
         "circle-radius": [
           "interpolate", ["linear"], ["zoom"],
-          5,  ["step", ["get", "voltage"], 1, 100, 2, 300, 3],
+          5, ["step", ["get", "voltage"], 1, 100, 2, 300, 3],
           12, ["step", ["get", "voltage"], 2, 100, 4, 300, 6]
         ],
         "circle-stroke-color": "#333333",
@@ -297,9 +297,7 @@
           ["case", ["has", "name"], ["concat", ["get", "name"], "\n"], ""],
           ["case", ["has", "operator"], ["concat", ["get", "operator"], "\n"], ""],
           ["case", ["has", "voltage"], ["concat", ["to-string", ["get", "voltage"]], " kV"], ""]
-        ],
-        "text-font": ["Noto Sans Regular"],
-        "text-size": ["interpolate", ["linear"], ["zoom"], 8, 10, 15, 13]
+        ]
       },
       "paint": {
         "text-color": "#111",
@@ -320,7 +318,20 @@
           "concat",
           ["case", ["has", "name"], ["concat", ["get", "name"], "\n"], ""],
           ["case", ["has", "operator"], ["concat", ["get", "operator"], "\n"], ""],
-          ["case", ["has", "output"], ["concat", ["to-string", ["get", "output"]], " MW"], ""]
+          ["case",
+            ["has", "output"],
+            ["concat",
+              [
+                "to-string",
+                ["/",
+                  ["floor", ["*", ["to-number", ["get", "output"]], 100]],
+                  100
+                ]
+              ],
+              " MW"
+            ],
+            ""
+          ]
         ]
       },
       "paint": {
@@ -335,13 +346,9 @@
       "type": "symbol",
       "source": "power",
       "source-layer": "power_generator_area",
-      "filter": [
-        "all",
+      "filter": ["all",
         ["==", ["get", "source"], "solar"],
-        ["any",
-          ["has", "name"],
-          ["has", "operator"]
-        ]
+        ["any", ["has", "name"], ["has", "operator"]]
       ],
       "minzoom": 11,
       "layout": {
@@ -349,7 +356,20 @@
           "concat",
           ["case", ["has", "name"], ["concat", ["get", "name"], "\n"], ""],
           ["case", ["has", "operator"], ["concat", ["get", "operator"], "\n"], ""],
-          ["case", ["has", "output"], ["concat", ["to-string", ["get", "output"]], " MW"], ""]
+          ["case",
+            ["has", "output"],
+            ["concat",
+              [
+                "to-string",
+                ["/",
+                  ["floor", ["*", ["to-number", ["get", "output"]], 100]],
+                  100
+                ]
+              ],
+              " MW"
+            ],
+            ""
+          ]
         ]
       },
       "paint": {
@@ -371,7 +391,20 @@
           ["case", ["has", "name"], ["concat", ["get", "name"], "\n"], ""],
           ["case", ["has", "operator"], ["concat", ["get", "operator"], "\n"], ""],
           ["case", ["has", "source"], ["concat", ["get", "source"], "\n"], ""],
-          ["case", ["has", "output"], ["concat", ["to-string", ["get", "output"]], " MW"], ""]
+          ["case",
+            ["has", "output"],
+            ["concat",
+              [
+                "to-string",
+                ["/",
+                  ["floor", ["*", ["to-number", ["get", "output"]], 100]],
+                  100
+                ]
+              ],
+              " MW"
+            ],
+            ""
+          ]
         ]
       },
       "paint": {
