@@ -1,6 +1,6 @@
 {
   "version": 8,
-  "name": "OIM Power (QGIS safe strict)",
+  "name": "OIM Power (fixed full QGIS safe)",
   "sources": {
     "power": {
       "type": "vector",
@@ -8,6 +8,18 @@
     }
   },
   "layers": [
+
+    {
+      "id": "power_line",
+      "type": "line",
+      "source": "power",
+      "source-layer": "power_line",
+      "paint": {
+        "line-color": "#6E97B8",
+        "line-width": 1.2,
+        "line-opacity": 0.8
+      }
+    },
 
     {
       "id": "power_line_label",
@@ -19,12 +31,22 @@
         "text-field": [
           "case",
           ["has", "voltage"],
-          ["concat",
-            ["get", "voltage"],
-            " V"
-          ],
+          ["concat", ["get", "voltage"], " V"],
           ""
         ]
+      }
+    },
+
+    {
+      "id": "power_substation",
+      "type": "circle",
+      "source": "power",
+      "source-layer": "power_substation_point",
+      "paint": {
+        "circle-radius": 4,
+        "circle-color": "#C73030",
+        "circle-stroke-color": "#333",
+        "circle-stroke-width": 0.5
       }
     },
 
@@ -36,25 +58,31 @@
       "layout": {
         "text-field": [
           "concat",
-
           ["case", ["has", "name"], ["get", "name"], ""],
-
           ["case",
             ["has", "operator"],
             ["concat", "\n", ["get", "operator"]],
             ""
           ],
-
           ["case",
             ["has", "voltage"],
-            ["concat",
-              "\n",
-              ["get", "voltage"],
-              " V"
-            ],
+            ["concat", "\n", ["get", "voltage"], " V"],
             ""
           ]
         ]
+      }
+    },
+
+    {
+      "id": "power_generator",
+      "type": "circle",
+      "source": "power",
+      "source-layer": "power_generator",
+      "paint": {
+        "circle-radius": 3,
+        "circle-color": "#55B555",
+        "circle-stroke-color": "#2a7a2a",
+        "circle-stroke-width": 0.5
       }
     },
 
@@ -87,6 +115,18 @@
             ""
           ]
         ]
+      }
+    },
+
+    {
+      "id": "power_generator_area",
+      "type": "fill",
+      "source": "power",
+      "source-layer": "power_generator_area",
+      "paint": {
+        "fill-color": "#726BA9",
+        "fill-opacity": 0.4,
+        "fill-outline-color": "#333"
       }
     },
 
