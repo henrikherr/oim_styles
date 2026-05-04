@@ -1,6 +1,6 @@
 {
   "version": 8,
-  "name": "Open Infrastructure Map - Power",
+  "name": "Open Infrastructure Map - Power (fixed)",
   "sources": {
     "power": {
       "type": "vector",
@@ -10,27 +10,31 @@
     }
   },
   "layers": [
+
     {
       "id": "power_plant_fill",
       "type": "fill",
       "source": "power",
       "source-layer": "power_plant",
       "minzoom": 5,
-      "paint": { "fill-color": "hsl(30, 20%, 35%)", "fill-opacity": 0.2 }
+      "paint": {
+        "fill-color": "hsl(30, 20%, 35%)",
+        "fill-opacity": 0.2
+      }
     },
+
     {
       "id": "power_plant_outline",
       "type": "line",
       "source": "power",
       "source-layer": "power_plant",
       "minzoom": 8,
-      "layout": { "line-join": "round" },
       "paint": {
         "line-color": "#1e1e1e",
-        "line-opacity": 0.8,
-        "line-width": ["interpolate", ["linear"], ["zoom"], 8, 0, 20, 4]
+        "line-width": ["interpolate", ["linear"], ["zoom"], 8, 0.5, 20, 4]
       }
     },
+
     {
       "id": "power_solar_panel_area",
       "type": "fill",
@@ -44,6 +48,7 @@
         "fill-outline-color": "#323232"
       }
     },
+
     {
       "id": "power_substation_fill",
       "type": "fill",
@@ -53,69 +58,57 @@
       "paint": {
         "fill-opacity": 0.35,
         "fill-color": [
-          "step", ["get", "voltage"],
-          "#7A7A85", 10, "#6E97B8", 25, "#55B555", 52, "#B59F10",
-          132, "#B55D00", 220, "#C73030", 310, "#B54EB2", 550, "#00C1CF"
+          "step", ["to-number", ["get", "voltage"]],
+          "#7A7A85",
+          10000, "#6E97B8",
+          25000, "#55B555",
+          52000, "#B59F10",
+          132000, "#B55D00",
+          220000, "#C73030",
+          310000, "#B54EB2",
+          550000, "#00C1CF"
         ]
       }
     },
-    {
-      "id": "power_substation_outline",
-      "type": "line",
-      "source": "power",
-      "source-layer": "power_substation",
-      "minzoom": 13,
-      "paint": {
-        "line-color": "#1e1e1e",
-        "line-opacity": 0.8,
-        "line-width": ["interpolate", ["linear"], ["zoom"], 13, 0.5, 20, 4]
-      }
-    },
-    {
-      "id": "power_line_underground",
-      "type": "line",
-      "source": "power",
-      "source-layer": "power_line",
-      "minzoom": 0,
-      "filter": ["any",
-        ["==", ["get", "location"], "underground"],
-        ["==", ["get", "location"], "underwater"]
-      ],
-      "paint": {
-        "line-dasharray": [3, 2],
-        "line-color": [
-          "step", ["get", "voltage"],
-          "#7A7A85", 10, "#6E97B8", 25, "#55B555", 52, "#B59F10",
-          132, "#B55D00", 220, "#C73030", 310, "#B54EB2", 550, "#00C1CF"
-        ],
-        "line-width": ["step", ["get", "voltage"], 1, 52, 2, 132, 3, 220, 4, 310, 5],
-        "line-opacity": 0.8
-      }
-    },
+
     {
       "id": "power_line",
       "type": "line",
       "source": "power",
       "source-layer": "power_line",
-      "minzoom": 0,
-      "filter": ["all",
-        ["!=", ["get", "location"], "underground"],
-        ["!=", ["get", "location"], "underwater"]
-      ],
+      "filter": ["!=", ["get", "location"], "underground"],
       "paint": {
         "line-color": [
-          "step", ["get", "voltage"],
-          "#7A7A85", 10, "#6E97B8", 25, "#55B555", 52, "#B59F10",
-          132, "#B55D00", 220, "#C73030", 310, "#B54EB2", 550, "#00C1CF"
+          "step", ["to-number", ["get", "voltage"]],
+          "#6E97B8",
+          110000, "#6E97B8",
+          220000, "#C73030",
+          380000, "#B54EB2"
         ],
         "line-width": [
           "interpolate", ["linear"], ["zoom"],
-          3,  ["step", ["get", "voltage"], 0.5, 52, 1,   132, 1.5, 220, 2, 310, 2.5],
-          12, ["step", ["get", "voltage"], 1,   52, 2,   132, 3,   220, 4, 310, 5  ]
+          5, ["step", ["to-number", ["get", "voltage"]], 0.5, 52000, 1, 132000, 1.5, 220000, 2],
+          10, ["step", ["to-number", ["get", "voltage"]], 1, 52000, 2, 132000, 3, 220000, 4],
+          15, ["step", ["to-number", ["get", "voltage"]], 2, 52000, 3, 132000, 5, 220000, 6]
         ],
         "line-opacity": ["interpolate", ["linear"], ["zoom"], 2, 0.3, 6, 1]
       }
     },
+
+    {
+      "id": "power_line_underground",
+      "type": "line",
+      "source": "power",
+      "source-layer": "power_line",
+      "filter": ["==", ["get", "location"], "underground"],
+      "paint": {
+        "line-dasharray": [3, 2],
+        "line-color": "#888888",
+        "line-width": 1.5,
+        "line-opacity": 0.7
+      }
+    },
+
     {
       "id": "power_substation_point",
       "type": "circle",
@@ -124,114 +117,45 @@
       "minzoom": 5,
       "paint": {
         "circle-color": [
-          "step", ["get", "voltage"],
-          "#7A7A85", 10, "#6E97B8", 25, "#55B555", 52, "#B59F10",
-          132, "#B55D00", 220, "#C73030", 310, "#B54EB2", 550, "#00C1CF"
+          "step", ["to-number", ["get", "voltage"]],
+          "#7A7A85",
+          110000, "#6E97B8",
+          220000, "#C73030",
+          380000, "#B54EB2"
         ],
-        "circle-radius": [
-          "interpolate", ["linear"], ["zoom"],
-          5,  ["step", ["get", "voltage"], 1, 100, 2, 300, 3],
-          12, ["step", ["get", "voltage"], 2, 100, 4, 300, 6]
-        ],
-        "circle-stroke-color": "#333333",
-        "circle-stroke-width": 0.5,
-        "circle-opacity": ["interpolate", ["linear"], ["zoom"], 2, 0.3, 6, 1]
-      }
-    },
-    {
-      "id": "power_wind_turbine_dot",
-      "type": "circle",
-      "source": "power",
-      "source-layer": "power_generator",
-      "filter": ["==", ["get", "source"], "wind"],
-      "minzoom": 7,
-      "maxzoom": 11,
-      "paint": {
-        "circle-radius": ["interpolate", ["linear"], ["zoom"], 7, 0.8, 11, 2],
-        "circle-color": "#55B555",
-        "circle-stroke-color": "#2a7a2a",
+        "circle-radius": ["interpolate", ["linear"], ["zoom"], 5, 2, 12, 6],
+        "circle-stroke-color": "#333",
         "circle-stroke-width": 0.5
       }
     },
+
     {
-      "id": "power_wind_turbine",
+      "id": "power_wind",
       "type": "circle",
       "source": "power",
       "source-layer": "power_generator",
       "filter": ["==", ["get", "source"], "wind"],
-      "minzoom": 11,
+      "minzoom": 10,
       "paint": {
-        "circle-radius": ["interpolate", ["linear"], ["zoom"], 11, 3, 17, 9],
+        "circle-radius": ["interpolate", ["linear"], ["zoom"], 10, 3, 17, 9],
         "circle-color": "#55B555",
         "circle-stroke-color": "#2a7a2a",
         "circle-stroke-width": 1
       }
     },
+
     {
-      "id": "power_generator_solar_node",
+      "id": "power_solar",
       "type": "circle",
       "source": "power",
       "source-layer": "power_generator",
       "filter": ["==", ["get", "source"], "solar"],
-      "minzoom": 13,
+      "minzoom": 12,
       "paint": {
-        "circle-radius": ["interpolate", ["linear"], ["zoom"], 13, 3, 18, 8],
+        "circle-radius": ["interpolate", ["linear"], ["zoom"], 12, 3, 18, 8],
         "circle-color": "#726BA9",
         "circle-stroke-color": "#4a4a80",
         "circle-stroke-width": 1
-      }
-    },
-    {
-      "id": "power_generator_other",
-      "type": "circle",
-      "source": "power",
-      "source-layer": "power_generator",
-      "filter": ["all",
-        ["!=", ["get", "source"], "wind"],
-        ["!=", ["get", "source"], "solar"]
-      ],
-      "minzoom": 10,
-      "paint": {
-        "circle-color": [
-          "match", ["get", "source"],
-          "hydro",   "#6E97B8",
-          "nuclear", "#C73030",
-          "gas",     "#B55D00",
-          "coal",    "#7A7A85",
-          "biomass", "#8B6914",
-          "waste",   "#666666",
-          "battery", "#B54EB2",
-          "#888888"
-        ],
-        "circle-radius": ["interpolate", ["linear"], ["zoom"], 10, 3, 16, 8],
-        "circle-stroke-color": "#333333",
-        "circle-stroke-width": 1
-      }
-    },
-    {
-      "id": "power_plant_point",
-      "type": "circle",
-      "source": "power",
-      "source-layer": "power_plant_point",
-      "minzoom": 5,
-      "paint": {
-        "circle-color": [
-          "match", ["get", "source"],
-          "wind",    "#55B555",
-          "solar",   "#726BA9",
-          "hydro",   "#6E97B8",
-          "nuclear", "#C73030",
-          "gas",     "#B55D00",
-          "coal",    "#7A7A85",
-          "biomass", "#8B6914",
-          "waste",   "#666666",
-          "battery", "#B54EB2",
-          "hsl(30, 20%, 35%)"
-        ],
-        "circle-radius": ["interpolate", ["linear"], ["zoom"], 5, 3, 12, 10],
-        "circle-stroke-color": "#333333",
-        "circle-stroke-width": 0.5,
-        "circle-opacity": ["interpolate", ["linear"], ["zoom"], 4, 0.4, 8, 1]
       }
     },
 
@@ -242,97 +166,21 @@
       "source-layer": "power_line",
       "minzoom": 7,
       "layout": {
-        "text-field": ["concat", ["to-string", ["get", "voltage"]], " kV"],
-        "text-font": ["Noto Sans Regular"],
         "symbol-placement": "line",
-        "symbol-spacing": 400,
-        "text-size": ["interpolate", ["linear"], ["zoom"], 7, 9, 18, 13],
-        "text-max-angle": 20,
-        "text-optional": true
-      },
-      "paint": {
-        "text-color": "hsl(0, 0%, 10%)",
-        "text-halo-color": "hsla(0, 0%, 98%, 0.9)",
-        "text-halo-width": 2
-      }
-    },
-
-    {
-      "id": "power_substation_label",
-      "type": "symbol",
-      "source": "power",
-      "source-layer": "power_substation_point",
-      "minzoom": 8,
-      "layout": {
-        "text-field": ["concat",
-          ["case", ["has", "name"],     ["concat", ["get", "name"],                     "\n"], ""],
-          ["case", ["has", "operator"], ["concat", ["get", "operator"],                 "\n"], ""],
-          ["to-string", ["get", "voltage"]], " kV"
+        "symbol-spacing": 600,
+        "text-field": [
+          "concat",
+          [
+            "to-string",
+            ["round", ["/", ["to-number", ["get", "voltage"]], 1000]]
+          ],
+          " kV"
         ],
-        "text-font": ["Noto Sans Regular"],
-        "text-size": ["interpolate", ["linear"], ["zoom"], 8, 10, 15, 13],
-        "text-variable-anchor": ["top", "bottom", "left", "right"],
-        "text-radial-offset": 0.8,
-        "text-optional": true,
-        "text-max-width": 14
+        "text-size": ["interpolate", ["linear"], ["zoom"], 7, 9, 18, 13]
       },
       "paint": {
-        "text-color": "hsl(0, 0%, 10%)",
-        "text-halo-color": "hsla(0, 0%, 98%, 0.9)",
-        "text-halo-width": 2
-      }
-    },
-
-    {
-      "id": "power_wind_turbine_label",
-      "type": "symbol",
-      "source": "power",
-      "source-layer": "power_generator",
-      "filter": ["==", ["get", "source"], "wind"],
-      "minzoom": 12,
-      "layout": {
-        "text-field": ["concat",
-          ["case", ["has", "name"],     ["concat", ["get", "name"],     "\n"], ""],
-          ["case", ["has", "operator"], ["concat", ["get", "operator"], "\n"], ""],
-          ["case", ["has", "output"],   ["concat", ["to-string", ["get", "output"]], " MW"], ""]
-        ],
-        "text-font": ["Noto Sans Regular"],
-        "text-size": ["interpolate", ["linear"], ["zoom"], 12, 9, 17, 12],
-        "text-variable-anchor": ["top", "bottom", "left", "right"],
-        "text-radial-offset": 1,
-        "text-optional": true,
-        "text-max-width": 14
-      },
-      "paint": {
-        "text-color": "#1a5c1a",
-        "text-halo-color": "hsla(0, 0%, 98%, 0.9)",
-        "text-halo-width": 2
-      }
-    },
-
-    {
-      "id": "power_solar_area_label",
-      "type": "symbol",
-      "source": "power",
-      "source-layer": "power_generator_area",
-      "filter": ["==", ["get", "source"], "solar"],
-      "minzoom": 11,
-      "layout": {
-        "text-field": ["concat",
-          ["case", ["has", "name"],     ["concat", ["get", "name"],     "\n"], ""],
-          ["case", ["has", "operator"], ["concat", ["get", "operator"], "\n"], ""],
-          ["case", ["has", "output"],   ["concat", ["to-string", ["get", "output"]], " MW"], ""]
-        ],
-        "text-font": ["Noto Sans Regular"],
-        "text-size": ["interpolate", ["linear"], ["zoom"], 11, 10, 17, 13],
-        "text-variable-anchor": ["center"],
-        "text-radial-offset": 0,
-        "text-optional": true,
-        "text-max-width": 16
-      },
-      "paint": {
-        "text-color": "#2e2060",
-        "text-halo-color": "hsla(0, 0%, 98%, 0.9)",
+        "text-color": "#111",
+        "text-halo-color": "#ffffff",
         "text-halo-width": 2
       }
     },
@@ -344,24 +192,37 @@
       "source-layer": "power_plant_point",
       "minzoom": 6,
       "layout": {
-        "text-field": ["concat",
-          ["case", ["has", "name"],     ["concat", ["get", "name"],     "\n"], ""],
-          ["case", ["has", "operator"], ["concat", ["get", "operator"], "\n"], ""],
-          ["case", ["has", "source"],   ["concat", ["get", "source"],   "\n"], ""],
-          ["case", ["has", "output"],   ["concat", ["to-string", ["get", "output"]], " MW"], ""]
+        "text-field": [
+          "concat",
+          ["coalesce", ["get", "name"], ""], "\n",
+          ["coalesce", ["get", "operator"], ""], "\n",
+          [
+            "case",
+            ["has", "output"],
+            ["concat",
+              ["to-string",
+                ["round",
+                  ["coalesce",
+                    ["to-number", ["get", "output"]],
+                    ["to-number", ["get", "capacity"]]
+                  ]
+                ]
+              ],
+              " MW"
+            ],
+            ""
+          ]
         ],
-        "text-font": ["Noto Sans Regular"],
         "text-size": ["interpolate", ["linear"], ["zoom"], 6, 10, 15, 13],
         "text-variable-anchor": ["top", "bottom", "left", "right"],
-        "text-radial-offset": 1.2,
-        "text-optional": true,
-        "text-max-width": 16
+        "text-radial-offset": 1.2
       },
       "paint": {
-        "text-color": "hsl(0, 0%, 10%)",
-        "text-halo-color": "hsla(0, 0%, 98%, 0.9)",
+        "text-color": "#111",
+        "text-halo-color": "#ffffff",
         "text-halo-width": 2
       }
     }
+
   ]
 }
