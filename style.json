@@ -242,7 +242,7 @@
       "source-layer": "power_line",
       "minzoom": 7,
       "layout": {
-        "text-field": ["concat", ["get", "voltage"], " kV"],
+        "text-field": ["concat", ["to-string", ["get", "voltage"]], " kV"],
         "text-font": ["Noto Sans Regular"],
         "symbol-placement": "line",
         "symbol-spacing": 400,
@@ -265,9 +265,9 @@
       "minzoom": 8,
       "layout": {
         "text-field": ["concat",
-          ["case", ["has", "name"],     ["concat", ["get", "name"],     "\n"], ""],
-          ["case", ["has", "operator"], ["concat", ["get", "operator"], "\n"], ""],
-          ["get", "voltage"], " kV"
+          ["case", ["has", "name"],     ["concat", ["get", "name"],                     "\n"], ""],
+          ["case", ["has", "operator"], ["concat", ["get", "operator"],                 "\n"], ""],
+          ["to-string", ["get", "voltage"]], " kV"
         ],
         "text-font": ["Noto Sans Regular"],
         "text-size": ["interpolate", ["linear"], ["zoom"], 8, 10, 15, 13],
@@ -294,7 +294,7 @@
         "text-field": ["concat",
           ["case", ["has", "name"],     ["concat", ["get", "name"],     "\n"], ""],
           ["case", ["has", "operator"], ["concat", ["get", "operator"], "\n"], ""],
-          ["case", ["has", "output"],   ["concat", ["get", "output"],   " MW"], ""]
+          ["case", ["has", "output"],   ["concat", ["to-string", ["get", "output"]], " MW"], ""]
         ],
         "text-font": ["Noto Sans Regular"],
         "text-size": ["interpolate", ["linear"], ["zoom"], 12, 9, 17, 12],
@@ -321,7 +321,7 @@
         "text-field": ["concat",
           ["case", ["has", "name"],     ["concat", ["get", "name"],     "\n"], ""],
           ["case", ["has", "operator"], ["concat", ["get", "operator"], "\n"], ""],
-          ["case", ["has", "output"],   ["concat", ["get", "output"],   " MW"], ""]
+          ["case", ["has", "output"],   ["concat", ["to-string", ["get", "output"]], " MW"], ""]
         ],
         "text-font": ["Noto Sans Regular"],
         "text-size": ["interpolate", ["linear"], ["zoom"], 11, 10, 17, 13],
@@ -348,7 +348,7 @@
           ["case", ["has", "name"],     ["concat", ["get", "name"],     "\n"], ""],
           ["case", ["has", "operator"], ["concat", ["get", "operator"], "\n"], ""],
           ["case", ["has", "source"],   ["concat", ["get", "source"],   "\n"], ""],
-          ["case", ["has", "output"],   ["concat", ["get", "output"],   " MW"], ""]
+          ["case", ["has", "output"],   ["concat", ["to-string", ["get", "output"]], " MW"], ""]
         ],
         "text-font": ["Noto Sans Regular"],
         "text-size": ["interpolate", ["linear"], ["zoom"], 6, 10, 15, 13],
